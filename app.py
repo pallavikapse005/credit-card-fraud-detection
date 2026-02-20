@@ -8,73 +8,91 @@ scaler = joblib.load("scaler.pkl")
 
 # Page config
 st.set_page_config(
-    page_title="Credit Card Fraud Detection",
+    page_title="Fraud Detection",
     page_icon="💳",
     layout="centered"
 )
 
-# Custom CSS for Black + Purple Theme
+# ================== CUSTOM THEME (BLACK + PURPLE) ==================
 st.markdown("""
 <style>
-body {
-    background-color: #0f0f1a;
-    color: white;
-}
 .stApp {
     background: linear-gradient(135deg, #0f0f1a, #1a0033);
+    color: white;
 }
 h1, h2, h3 {
-    color: #bb86fc;
+    color: #c77dff;
     text-align: center;
+}
+.stNumberInput label {
+    color: #e0aaff;
 }
 .stButton>button {
     background-color: #7b2cbf;
     color: white;
     border-radius: 12px;
+    font-size: 18px;
     height: 3em;
     width: 100%;
-    font-size: 18px;
 }
 .stButton>button:hover {
     background-color: #9d4edd;
     color: black;
 }
-.stNumberInput label {
-    color: #e0aaff;
-}
-.result-safe {
-    background-color: #1b4332;
-    padding: 15px;
+div[data-testid="stExpander"] {
+    background-color: #240046;
     border-radius: 10px;
-    text-align: center;
-    font-size: 20px;
-}
-.result-fraud {
-    background-color: #6a040f;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 20px;
 }
 </style>
 """, unsafe_allow_html=True)
+# ===================================================================
 
 # Title
-st.markdown("<h1>💳 Credit Card Fraud Detection</h1>", unsafe_allow_html=True)
-st.markdown("<h3>Machine Learning Based Fraud Prediction System</h3>", unsafe_allow_html=True)
+st.markdown("<h1>💳 Credit Card Fraud Detection System</h1>", unsafe_allow_html=True)
+st.markdown(
+    "<center style='color:#e0aaff;'>Enter transaction behavior details</center>",
+    unsafe_allow_html=True
+)
 
-st.write("---")
-
-# Input section
-st.subheader("🔢 Enter Transaction Details")
+# User-friendly feature names (mapped to V1–V28)
+feature_names = [
+    "Transaction Speed Deviation",
+    "Transaction Frequency Score",
+    "Merchant Risk Indicator",
+    "Location Change Score",
+    "Spending Pattern Shift",
+    "Device Usage Pattern",
+    "Transaction Timing Anomaly",
+    "Purchase Behavior Consistency",
+    "Account Activity Score",
+    "Unusual Transaction Indicator",
+    "Customer Risk Profile",
+    "Payment Method Stability",
+    "Transaction Confidence Score",
+    "Historical Fraud Similarity",
+    "Transaction Trust Index",
+    "Behavioral Risk Factor",
+    "Security Signal Strength",
+    "Usage Irregularity Score",
+    "Transaction Reliability",
+    "Risk Correlation Index",
+    "Behavior Deviation Level",
+    "Fraud Pattern Match Score",
+    "Purchase Location Trust",
+    "Spending Regularity Index",
+    "Account Stability Score",
+    "Transaction Validation Level",
+    "Risk Amplification Factor",
+    "Anomaly Confidence Score"
+]
 
 input_data = []
 
-# PCA feature inputs
-with st.expander("📌 Transaction Features (V1 – V28)", expanded=False):
-    for i in range(1, 29):
+# Feature inputs
+with st.expander("📌 Transaction Behavior Features"):
+    for feature in feature_names:
         value = st.number_input(
-            f"V{i}",
+            feature,
             min_value=-10.0,
             max_value=10.0,
             value=0.0,
@@ -94,26 +112,20 @@ input_data.append(amount)
 
 st.write("---")
 
-# Predict button
+# Prediction
 if st.button("🔍 Predict Transaction"):
     input_array = np.array(input_data).reshape(1, -1)
     input_scaled = scaler.transform(input_array)
     prediction = model.predict(input_scaled)
 
     if prediction[0] == 1:
-        st.markdown(
-            "<div class='result-fraud'>⚠️ Fraudulent Transaction Detected!</div>",
-            unsafe_allow_html=True
-        )
+        st.error("⚠️ Fraudulent Transaction Detected!")
     else:
-        st.markdown(
-            "<div class='result-safe'>✅ Legitimate Transaction</div>",
-            unsafe_allow_html=True
-        )
+        st.success("✅ Legitimate Transaction")
 
 # Footer
-st.write("---")
 st.markdown(
     "<center style='color:#c77dff;'>Developed using Machine Learning & Streamlit</center>",
     unsafe_allow_html=True
 )
+
