@@ -17,31 +17,21 @@ st.set_page_config(
 st.markdown("""
 <style>
 .stApp {
-    background: linear-gradient(135deg, #0f0f1a, #1a0033);
+    background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
     color: white;
 }
 h1, h2, h3 {
-    color: #c77dff;
-    text-align: center;
-}
-.stNumberInput label {
-    color: #e0aaff;
+    color: #ff9f1c;
 }
 .stButton>button {
-    background-color: #7b2cbf;
-    color: white;
-    border-radius: 12px;
-    font-size: 18px;
-    height: 3em;
-    width: 100%;
-}
-.stButton>button:hover {
-    background-color: #9d4edd;
+    background-color: #ff9f1c;
     color: black;
 }
+.stButton>button:hover {
+    background-color: #ffbf69;
+}
 div[data-testid="stExpander"] {
-    background-color: #240046;
-    border-radius: 10px;
+    background-color: #2a2a2a;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -128,4 +118,5 @@ st.markdown(
     "<center style='color:#c77dff;'>Developed using Machine Learning & Streamlit</center>",
     unsafe_allow_html=True
 )
+
 
